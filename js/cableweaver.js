@@ -11,10 +11,10 @@ $(function() {
         mrndiv.append(
             $('<p/>').append('Enter cable <abbr title="Message Reference Number">MRN</abbr>s (one per line). ')
                 .append('You can search for MRNs at the following ')
-                .append('<a target="_blank" href="https://en.wikipedia.org/wiki/Contents_of_the_United_States_diplomatic_cables_leak#Sites_offering_search_capabilities">sites</a>), or try an ')
+                .append('<a target="_blank" href="https://en.wikipedia.org/wiki/Contents_of_the_United_States_diplomatic_cables_leak#Sites_offering_search_capabilities">sites</a>, or try an ')
                 .append(
                     $('<a/>').attr('href','#').text('example').on('click',function() {
-                        $('#mrns').val('08STATE121356\n08STATE115523\n09ROME252').trigger('change');
+                        $('#mrns').val('08BRASILIA1612\n08STATE115523\n08STATE121356\n08VIENNA1414').trigger('change');
                         return false;
                     })
                 )

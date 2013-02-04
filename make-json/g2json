@@ -1,0 +1,209 @@
+#!/usr/bin/env python
+# 
+# GPLv3 2011-2012 by anonymous
+# 
+
+import igraph, math, csv, time, json
+from sys import argv, exit, stderr
+from os import listdir, path, environ, closerange
+from optparse import OptionParser
+from datetime import datetime
+
+
+from hashlib import sha1
+from struct import unpack
+def str2hsl(s):
+    h = unpack('!I',sha1(s).digest()[:4])[0]
+    hsl = []
+    for mod in [360,50,50]:
+        hsl.append(h%mod)
+        h/=mod
+    return "hsl({0},{1}%,{2}%)".format(hsl[0],hsl[1]+50,hsl[2]+50)
+
+environ['TZ'] = 'UTC'
+time.tzset()
+
+parser = OptionParser()
+
+parser.add_option("-g", "--gml", dest="gmlfile",
+    help="Single source graph in gml format FILE", metavar="FILE")
+
+parser.add_option("-i", "--include", dest="gmllist",
+    help="Load all .gml graphs listed in FILE", metavar="FILE")
+
+parser.add_option("-d", "--dest", dest="destdir",
+    default=".",
+    help="Destination DIR. Default: current dir", 
+    metavar="DIR")
+
+parser.add_option("-r", "--reverb", dest="reverb",
+    help="Load sentences from a ReVerb result tsv FILE (e.g. mycables.reverb)",
+    metavar="FILE")
+
+parser.add_option("-s", "--subjects", dest="subjects",
+    default="data/subjects.list",
+    help="Load map of label -> subject. Default: subjects.list", metavar="FILE")
+
+parser.add_option("-u", "--uri", dest="uri",
+    default="data/wikileaks.org.map",
+    help="Load map of label -> uri from FILE. Default: wikileaks.org.map", metavar="FILE")
+
+(options, args) = parser.parse_args()
+
+graph_files = set()
+if options.gmlfile:
+    graph_files.add(options.gmlfile.strip())
+
+if options.gmllist:
+    gfh = open(options.gmllist)
+    for gf in gfh.readlines():
+        graph_files.add(gf.strip())
+    gfh.close()
+
+if len(graph_files) < 1:
+    print "No source .gml files"
+    exit(1)
+
+def format_timestamp(ts, tsformat = '%Y-%m-%d'):
+    d = datetime.fromtimestamp(float(ts))
+    return d.strftime(tsformat)
+
+if options.reverb:
+    reverb_csv = csv.reader(
+            open(options.reverb), 
+            delimiter='\t', 
+            quotechar = None,
+            lineterminator = '\n')
+
+    reverb_map = {}
+    for row in reverb_csv:
+        type, reverb_cable_id, num, argument1, relation, argument2, score = row
+        # TODO have a custom threshold as cmd line parameter
+        if float(score) > 0.7:
+            if reverb_map.has_key(reverb_cable_id):
+                reverb_map[reverb_cable_id].append({
+                        'a1': argument1, 
+                        'rel': relation,
+                        'a2': argument2,
+                        'score': score
+                        })
+            else:
+                reverb_map[reverb_cable_id] = [{ 
+                        'a1': argument1, 
+                        'rel': relation,
+                        'a2': argument2,
+                        'score': score
+                        }]
+
+# load optional uri map
+if options.uri:
+    cmap = {}
+    f = open(options.uri)
+    for l in f.readlines():
+        k,v = l.strip().split()
+        cmap[k.strip()] = v.strip()
+    f.close()
+
+# load optional subject map
+if options.subjects:
+    smap = {}
+    f = open(options.subjects)
+    for l in f.readlines():
+        k,v = l.split(' ',1)
+        smap[k.strip()] = v.strip()
+    f.close()
+
+for gml in graph_files:
+
+    destfile = "{0}/{1}.json".format(options.destdir, path.basename(gml).rsplit('.',1)[0])
+    if path.exists(destfile):
+        print "%s exists. skipping" % destfile
+        continue
+
+    # load graph from file
+    g = igraph.load(gml)
+
+    # apply sentences to graph
+    if options.reverb:
+        sentence = []
+        for l in g.vs.get_attribute_values('label'):
+            if l in reverb_map.keys():
+                sentence.append(reverb_map[l])
+            else:
+                sentence.append('')
+
+        g.vs['sentence'] = sentence
+
+    # apply uris to graph
+    if options.uri:
+        uri = []
+        for l in g.vs.get_attribute_values('label'):
+            if l in cmap:
+                uri.append(cmap[l])
+            else:
+                uri.append('')
+
+        g.vs['uri'] = uri
+
+    # apply subjects to graph
+    if options.subjects:
+        subjects = []
+        for l in g.vs.get_attribute_values('label'):
+            if l in smap:
+                subjects.append(smap[l])
+            else:
+                subjects.append('')
+
+        g.vs['subjects'] = subjects
+
+    labels = g.vs['label']
+    places = list(set(g.vs['place'])) # remove duplicates, for color index
+    edges = []
+    vertices = []
+    for eidx, edge in enumerate(g.es):
+        vidxs = edge.tuple
+        # Fix bogus directionality in graphml:
+        # 1) If there are timestaps, the later cable refers to the earlier cable
+        # 2) Missing cables should be reference and not referrer
+        #    (regardless of the date we've guessed for them)
+        zero_refs_one = False
+        if 'timestamp' in g.vs.attribute_names() and g.vs['timestamp'][vidxs[0]]>g.vs['timestamp'][vidxs[1]]:
+            zero_refs_one = True
+        if 'missing' in g.vs.attribute_names():
+            if g.vs['missing'][vidxs[0]]:
+                zero_refs_one = False
+            elif  g.vs['missing'][vidxs[1]]:
+                zero_refs_one = True
+        if zero_refs_one:
+            stderr.write('flipped {0}<->{1}\n'.format(g.vs['label'][vidxs[0]],g.vs['label'][vidxs[1]]))
+            edge['source'] = vidxs[0]
+            edge['target'] = vidxs[1]
+        else:
+            edge['source'] = vidxs[1]
+            edge['target'] = vidxs[0]
+
+    for vidx,v in enumerate(g.vs):
+        # Add stuff I fine easier to do in Python than in JS :)
+        if 'place' in v.attribute_names(): 
+            # [hopefully] gives each place a unique color (if you don't have your own scale)
+            v['color'] = str2hsl(v['place'])
+            # This is a unique-per-place index, if you want to use a preset color scale
+            v['colorindex'] = places.index(v['place'])
+        if 'timestamp' in v.attribute_names():
+            # Nicely formatted date
+            v['date'] = v['timestamp'] and format_timestamp(v['timestamp']) or None
+        if 'missing' in v.attribute_names() and v['missing']:
+            v['nodeclass'] = 'MISSING'
+        elif 'classification' in v.attribute_names():
+            v['nodeclass'] = v['classification'].replace('//','-').replace(' ','-').upper()
+
+    try:
+        dfh = open(destfile,'w')
+    except IOError:
+        # TODO tmp fix for too many open files 
+        closerange(100,255)
+        dfh = open(destfile,'w')
+
+    json.dump({'nodes': map(lambda x: x.attributes(),g.vs),'links': map(lambda x: x.attributes(),g.es)}, dfh)
+    dfh.close()
+    print "%s -> %s" % (gml, destfile)

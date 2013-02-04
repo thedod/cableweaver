@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)http://twitter.github.com/bootstrap/examples/fluid.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>CableWeaver</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap-spacelab.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .noborder { border:none }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/cableweaver.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">CableWeaver</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right">
+              <li><a href="#">Help</a></li>
+              <li><a href="#">Code</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="span3">
+          <div class="accordion" id="sidebar-accordion">
+            <div class="accordion-group noborder">
+              <div class="accordion-heading badge badge-inverse">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#sidebar-search">1. Search for graphs</a>
+              </div>
+              <div id="sidebar-search" class="accordion-body collapse in">
+                <div id="mrn-div" class="accordion-inner noborder">
+                  <div class="progress progress-striped active">
+                    <div class="bar" style="width: 100%;">Loading graph index...</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group noborder">
+              <div class="accordion-heading badge badge-inverse">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#sidebar-select">2. Select a graph</a>
+              </div>
+              <div id="sidebar-select" class="accordion-body collapse">
+                <div id="graph-menu-div" class="accordion-inner noborder">
+                  <div class="alert">You need to
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#sidebar-search">search</a>
+                    first.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group noborder">
+              <div class="accordion-heading noborder badge badge-inverse">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#sidebar-timeline">3. Timeline</a>
+              </div>
+              <div id="sidebar-timeline" class="accordion-body collapse">
+                <div class="accordion-inner noborder">
+                  Under construction...
+                </div>
+              </div>
+            </div>
+          </div><!--/accordion-->
+        </div><!--/span-->
+        <div id="graph-area" class="span9"></div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p><em>Powered by the people</em></p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/d3.v3.min.js"></script>
+    <script src="js/cableweaver.js"></script>
+</body>
+</html>

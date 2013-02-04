@@ -1,0 +1,27 @@
+.menu, .menu li { display: inline; padding:0 4px }
+.menu a { text-decoration: none }
+.menu a hover { text-decoration: underline }
+.menu a.active { color: black; font-weight: bold }
+
+.node {
+  stroke: #000;
+  stroke-width: 1.5px;
+  stroke-opacity: .6;
+}
+
+.node.MISSING { stroke:#black; stroke-dasharray:2,2 }
+.node.SECRET-NOFORN { stroke: #7f0000; }
+.node.SECRET { stroke: #7f0000; }
+.node.CONFIDENTIAL-NOFORN { stroke: #00007f; }
+.node.CONFIDENTIAL { stroke: #00007f; }
+.node.UNCLASSIFIED { stroke: #007f00; }
+.node.UNCLASSIFIED-FOR-OFFICIAL-USE-ONLY { stroke: #007f00; }
+
+.node.active {
+  stroke-opacity: 1;
+}
+
+.link {
+  stroke: #000;
+  stroke-opacity: .6;
+}

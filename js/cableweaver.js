@@ -36,9 +36,8 @@ function search4Graphs(mrns) {
         }
     }
     var graph_menu = [];
-    for (pair in Iterator(graph2mrns)) { graph_menu.push(pair); }
+    for (k in graph2mrns) { graph_menu.push([k,graph2mrns[k]]); }
     graph_menu.sort(function(x,y) { return x[1].length-y[1].length; });
-    console.log(graph_menu);
     if (!graph_menu.length) {
         $('#graph-menu-div').html(
             '<div class="alert">No graphs found.<br>Try another search.</div>');
@@ -101,7 +100,6 @@ function initSvg() {
 }
 
 function populate(file,selected) {
-  console.log(file);
   force.stop();
   svg.selectAll("line.link").remove();
   svg.selectAll("circle.node").remove();
@@ -127,7 +125,6 @@ function populate(file,selected) {
         // also: colors aren't persistent across graphs :(
         //.style("fill", function(d) { return node_color(d.colorindex); })
         .on("contextmenu",function(d) {
-           console.log(d);
            return false;
         })
         .on("click",function(d) {

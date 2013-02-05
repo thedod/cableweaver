@@ -48,8 +48,10 @@ function search4Graphs(mrns) {
     for (i = 0 ; i< graph_menu.length ; i++) {
         ul.append(
             $('<li/>').append(
-                $('<a>').attr('href','json/'+graph_menu[i][0]).html(graph_menu[i][1].join(' , '))
-                    .on("click",function() { populate($(this).attr("href")); return false; })
+                $('<a>').attr('href','json/'+graph_menu[i][0])
+                    .data("selected",graph_menu[i][1])
+                    .html(graph_menu[i][1].join(' , '))
+                    .on("click",function() { populate($(this).attr("href"),$(this).data("selected")); return false; })
             )
         );
     }
@@ -98,12 +100,11 @@ function initSvg() {
           .attr("points", "0,0 5,5 0,10 1,5");
 }
 
-function populate(file) {
+function populate(file,selected) {
   console.log(file);
   force.stop();
   svg.selectAll("line.link").remove();
   svg.selectAll("circle.node").remove();
-  d3.selectAll("a.menu-item").classed("active",false);
   d3.json(file, function(error, graph) {
     force
         .nodes(graph.nodes)
@@ -119,10 +120,11 @@ function populate(file) {
       .enter().append("circle")
         .attr("id", function(d) { return "c"+d.label.replace(':','-') })
         .attr("class", function(d) {return "node "+d.nodeclass; })
-        .attr("r", 8)
+        .attr("r", function(d) { return selected.indexOf(d.label)>=0?12:8; })
         // hash-generated unique colors - less readable (close colors are possible)
         .style("fill", function(d) { return d.color; })
         // more readable color scale, but cycles thru 20 colors (duplicates if >20)
+        // also: colors aren't persistent across graphs :(
         //.style("fill", function(d) { return node_color(d.colorindex); })
         .on("contextmenu",function(d) {
            console.log(d);
@@ -130,7 +132,7 @@ function populate(file) {
         })
         .on("click",function(d) {
           if (d3.event.shiftKey) {
-            d3.select(this).classed("active",d.fixed = !d.fixed)
+            d3.select(this).classed("pinned",d.fixed = !d.fixed)
           } else {
             if (d.uri) {
               window.open(d.uri);

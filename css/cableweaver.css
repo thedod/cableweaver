@@ -17,9 +17,7 @@
 .node.UNCLASSIFIED { stroke: #007f00; }
 .node.UNCLASSIFIED-FOR-OFFICIAL-USE-ONLY { stroke: #007f00; }
 
-.node.active {
-  stroke-opacity: 1;
-}
+.node.pinned { stroke-opacity: 1; }
 
 .link {
   stroke: #000;

@@ -3,13 +3,21 @@
 .menu a hover { text-decoration: underline }
 .menu a.active { color: black; font-weight: bold }
 
+.MISSING { color:black; }
+.SECRET-NOFORN { color: #7f0000; }
+.SECRET { color: #7f0000; }
+.CONFIDENTIAL-NOFORN { color: #00007f; }
+.CONFIDENTIAL { color: #00007f; }
+.UNCLASSIFIED { color: #007f00; }
+.UNCLASSIFIED-FOR-OFFICIAL-USE-ONLY { color: #007f00; }
+
 .node {
   stroke: #000;
   stroke-width: 1.5px;
   stroke-opacity: .6;
 }
 
-.node.MISSING { stroke:#black; stroke-dasharray:2,2 }
+.node.MISSING { stroke:black; stroke-dasharray:2,2 }
 .node.SECRET-NOFORN { stroke: #7f0000; }
 .node.SECRET { stroke: #7f0000; }
 .node.CONFIDENTIAL-NOFORN { stroke: #00007f; }
@@ -22,4 +30,19 @@
 .link {
   stroke: #000;
   stroke-opacity: .6;
+}
+
+
+small.selected::after {
+  content:'';
+  display: inline-block;
+  float: right;
+  width: 23px;
+  height: 23px;
+  margin-top: 1px;
+  *margin-right: .3em;
+  line-height: 23px;
+  vertical-align: text-top;
+  background-image: url("../img/glyphicons_335_pushpin.png");
+  background-repeat: no-repeat;
 }

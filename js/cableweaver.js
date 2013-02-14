@@ -100,6 +100,11 @@ function initSvg() {
 }
 
 function populate(file,selected) {
+  var timeline = d3.select("#timeline");
+  timeline.html(
+    '<div class="progress progress-striped active"><div class="bar" style="width: 100%;">Generating timeline...</div></div>');
+  $('#sidebar-select').collapse('hide');
+  $('#sidebar-timeline').collapse('show');
   force.stop();
   svg.selectAll("line.link").remove();
   svg.selectAll("circle.node").remove();
@@ -122,7 +127,7 @@ function populate(file,selected) {
         // hash-generated unique colors - less readable (close colors are possible)
         .style("fill", function(d) { return d.color; })
         // more readable color scale, but cycles thru 20 colors (duplicates if >20)
-        // also: colors aren't persistent across graphs :(
+        // also: colors aren't persistent across graphs
         //.style("fill", function(d) { return node_color(d.colorindex); })
         .on("contextmenu",function(d) {
            return false;
@@ -178,5 +183,18 @@ function populate(file,selected) {
       node.attr("cx", function(d) { return d.x = Math.max(12, Math.min(svg_width - 12, d.x)); })
           .attr("cy", function(d) { return d.y = Math.max(12, Math.min(svg_height - 12, d.y)); });
     });
+
+    timeline.html('<ul class="nav nav-stacked nav-tabs"/>').select("ul")
+      .selectAll("li").data(graph.nodes)
+        .enter().append("li")
+          .append("a")
+          .attr("target",function(d) { return d.uri?'_blank':'_self'; })
+          .attr("class","timeline-link")
+          .attr("href",function(d) { return d.uri||'javascript:{alert("Missing cable"); void(0);}'; })
+            .append("small")
+              .attr("class",function(d) { return d.nodeclass||"MISSING"; })
+              .classed("selected",function(d) { return selected.indexOf(d.label)>=0; })
+              .text(function(d) { d.date = d.date||'(unknown)'; return d.date+" "+d.label; });
+    timeline.selectAll("li").sort(function(d1,d2) { return d1.date<d2.date?-1:(d1.date>d2.date?1:0); });
   });
 }

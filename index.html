@@ -81,8 +81,11 @@
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#sidebar-timeline">3. Timeline</a>
               </div>
               <div id="sidebar-timeline" class="accordion-body collapse">
-                <div class="accordion-inner noborder">
-                  Here we'll have a list of all graph's cables sorted by date, with option to highlight a cable's node in the graph, etc.
+                <div class="accordion-inner noborder" id="timeline">
+                  <div class="alert">You need to
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#sidebar-select">select a graph</a>
+                    first.
+                  </div>
                 </div>
               </div>
             </div>
@@ -94,7 +97,15 @@
       <hr>
 
       <footer>
-        <p><em>Powered by the people</em></p>
+        <p>
+          Data: <a target="_blank" href="https://wikileaks.org">Wikileaks</a> &bull;
+          Graph generation: <a target="_blank" href="http://wlwardiary.github.com/cable2graph/">Cable2Graph</a> &bull;
+          Visualization: <a target="_blank" href="http://d3js.org">D3</a> &bull;
+          <a target="_blank" href="http://twitter.github.com/bootstrap">Bootstap</a> theme:
+          <a target="_blank" href="http://bootswatch.com/spacelab/">Spacelab</a> &bull;
+          Icons (<a target="_blank" href="http://creativecommons.org/licenses/by-nd/3.0/">cc-by-nd</a>):
+          <a target="_blank" href="http://glyphicons.com/">Glyphicons</a>
+        </p>
       </footer>
 
     </div><!--/.fluid-container-->

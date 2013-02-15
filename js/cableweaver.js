@@ -7,7 +7,6 @@ $(function() {
                 "Couldn't load json/mrn2graphs.json: "+statustext+"."); 
             return;
         }
-
         mrndiv.append(
             $('<p/>').append('Enter cable <abbr title="Message Reference Number">MRN</abbr>s (one per line). ')
                 .append('You can search for MRNs at the following ')
@@ -57,9 +56,8 @@ function search4Graphs(mrns) {
     $('#graph-menu-div').empty().append(ul);
 }
 
-
 // Helper so that a link doesn't cover the nodes
-// returns a line between x1,x2 and y1,y2 that is
+// returns a line between x1,x2 and y1,y2 that
 // begins r1 "later" and ends r2 "earlier"
 // is there a fancy d3 way to do this?!?
 function shorten(x1,y1,x2,y2,r1,r2) {
@@ -72,6 +70,21 @@ function shorten(x1,y1,x2,y2,r1,r2) {
       x2:x2+(x2>x1?-1:1)*r2*Math.cos(a),
       y2:y2+(y2>y1?-1:1)*r2*Math.sin(a)
     }
+}
+
+function toggleSelection(mrn,selected) {
+    window.force.stop();
+    var i=selected.indexOf(mrn);
+    
+    if (i>=0) {
+        selected.splice(i,1);
+    } else {
+        selected.push(mrn);
+    }
+    mrn = mrn.replace(':','-'); // tweak for reftel bug. grrr
+    d3.select('#c'+mrn).attr('r',i<0?12:8);
+    d3.select('#t'+mrn).classed('selected',i<0);
+    window.force.start();
 }
 
 function initSvg() {
@@ -135,6 +148,8 @@ function populate(file,selected) {
         .on("click",function(d) {
           if (d3.event.shiftKey) {
             d3.select(this).classed("pinned",d.fixed = !d.fixed)
+          } else if (d3.event.ctrlKey) {
+            toggleSelection(d.label,selected);
           } else {
             if (d.uri) {
               window.open(d.uri);
@@ -188,16 +203,28 @@ function populate(file,selected) {
       .selectAll("li").data(graph.nodes)
         .enter().append("li")
           .append("a")
-          .attr("target",function(d) { return d.uri?'_blank':'_self'; })
+          .attr("href","#")
           .attr("title",function(d) {
             return (d.classification?d.classification:"MISSING")+(d.subjects?":\n"+d.subjects:"");
           })
           .attr("class","timeline-link")
-          .attr("href",function(d) { return d.uri||'javascript:{alert("Missing cable"); void(0);}'; })
-            .append("small")
-              .attr("class",function(d) { return d.nodeclass||"MISSING"; })
-              .classed("selected",function(d) { return selected.indexOf(d.label)>=0; })
-              .text(function(d) { d.date = d.date||'(unknown)'; return d.date+" "+d.label; });
+          .on("click",function(d) {
+            if (d3.event.ctrlKey) {
+              toggleSelection(d.label,selected);
+            } else {
+              if (d.uri) {
+                window.open(d.uri);
+              } else {
+                alert('Missing cable');
+              }
+            }
+            return false;
+           })
+           .append("small")
+             .attr("id", function(d) { return "t"+d.label.replace(':','-') })
+             .attr("class",function(d) { return d.nodeclass||"MISSING"; })
+             .classed("selected",function(d) { return selected.indexOf(d.label)>=0; })
+             .text(function(d) { d.date = d.date||'(unknown)'; return d.date+" "+d.label; });
     timeline.selectAll("li").sort(function(d1,d2) { return d1.date<d2.date?-1:(d1.date>d2.date?1:0); });
   });
 }

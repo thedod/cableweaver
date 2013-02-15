@@ -20,7 +20,7 @@ $(function() {
                 )
                 .append('.')
             )
-            .append('<form><textarea id="mrns" placeholder="10TELAVIV413"></textarea></form>');
+            .append('<form><textarea id="mrns" placeholder="06JERUSALEM1286"></textarea></form>');
         $('#mrns').on("change",function() { search4Graphs($(this).val().split("\n")); });
     });
     initSvg();

@@ -76,7 +76,7 @@ function shorten(x1,y1,x2,y2,r1,r2) {
 
 function initSvg() {
     window.svg_width = 700;
-    window.svg_height = 480;
+    window.svg_height = 500;
     window.node_color = d3.scale.category20().domain(d3.range(0,1000));
 
     window.force = d3.layout.force()

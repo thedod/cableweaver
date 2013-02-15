@@ -189,6 +189,9 @@ function populate(file,selected) {
         .enter().append("li")
           .append("a")
           .attr("target",function(d) { return d.uri?'_blank':'_self'; })
+          .attr("title",function(d) {
+            return (d.classification?d.classification:"MISSING")+(d.subjects?":\n"+d.subjects:"");
+          })
           .attr("class","timeline-link")
           .attr("href",function(d) { return d.uri||'javascript:{alert("Missing cable"); void(0);}'; })
             .append("small")

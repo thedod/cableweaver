@@ -36,7 +36,6 @@
 small.selected::after {
   content:'';
   display: inline-block;
-  float: right;
   width: 23px;
   height: 23px;
   margin-top: 1px;

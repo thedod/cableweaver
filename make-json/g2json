@@ -18,7 +18,7 @@ def str2hsl(s):
     for mod in [360,50,50]:
         hsl.append(h%mod)
         h/=mod
-    return "hsl({0},{1}%,{2}%)".format(hsl[0],hsl[1]+50,hsl[2]+50)
+    return "hsl({0},{1}%,{2}%)".format(hsl[0],hsl[1]+25,hsl[2]+25)
 
 environ['TZ'] = 'UTC'
 time.tzset()

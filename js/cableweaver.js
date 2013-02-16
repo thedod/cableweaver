@@ -8,7 +8,8 @@ $(function() {
             return;
         }
         mrndiv.append(
-            $('<p/>').append('Enter cable <abbr title="Message Reference Number">MRN</abbr>s (one per line). ')
+            $('<p/>').append('Enter <a target="_blank" href="https://en.wikipedia.org/wiki/United_States_diplomatic_cables_leak">Cablegate</a> ')
+                .append('<abbr title="Message Reference Number">MRN</abbr>s (one per line). ')
                 .append('You can search for MRNs at the following ')
                 .append('<a target="_blank" href="https://en.wikipedia.org/wiki/Contents_of_the_United_States_diplomatic_cables_leak#Sites_offering_search_capabilities">sites</a>, or try an ')
                 .append(
@@ -142,9 +143,6 @@ function populate(file,selected) {
         // more readable color scale, but cycles thru 20 colors (duplicates if >20)
         // also: colors aren't persistent across graphs
         //.style("fill", function(d) { return node_color(d.colorindex); })
-        .on("contextmenu",function(d) {
-           return false;
-        })
         .on("click",function(d) {
           if (d3.event.shiftKey) {
             d3.select(this).classed("pinned",d.fixed = !d.fixed)
@@ -218,7 +216,7 @@ function populate(file,selected) {
                 alert('Missing cable');
               }
             }
-            return false;
+            d3.event.preventDefault();
            })
            .append("small")
              .attr("id", function(d) { return "t"+d.label.replace(':','-') })

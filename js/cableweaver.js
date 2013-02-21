@@ -1,4 +1,10 @@
 $(function() {
+    var hashvec = location.hash.split('#'),thefile = '',theselection = [];
+    if (hashvec.length>1) {
+        hashvec = hashvec[1].split(',');
+        thefile = hashvec[0].replace(/.*\//,''); // against "../" shenanigans
+        theselection = hashvec.splice(1)||[];
+    }
     $.getJSON('json/mrn2graphs.json',function(data,statustext,xhr) {
         window.mrn2json = data;
         var mrndiv=$('#mrn-div').empty();
@@ -22,8 +28,15 @@ $(function() {
             )
             .append('<form><textarea id="mrns" placeholder="06JERUSALEM1286"></textarea></form>');
         $('#mrns').on("change",function() { search4Graphs($(this).val().split("\n")); });
+        if (theselection) {
+            $('#mrns').val(theselection.join('\n')).trigger('change');
+        }
     });
+    $('#shareModal').on('shown',function() {$('#permalink').select();});
     initSvg();
+    if (thefile) {
+        populate('json/'+thefile+'.json',theselection);
+    }
 });
 
 function search4Graphs(mrns) {
@@ -113,16 +126,22 @@ function initSvg() {
           .attr("points", "0,0 5,5 0,10 1,5");
 }
 
+function setPermalink(file,selected) {
+  $('#permalink').attr('value',
+    location.href.split('#')[0]+'#'+([file.replace(/.*\//,'').replace('.json','')].concat(selected)).join(','));
+  $('#share-tab').removeClass('hidden');
+}
+
 function populate(file,selected) {
   var timeline = d3.select("#timeline");
   timeline.html(
     '<div class="progress progress-striped active"><div class="bar" style="width: 100%;">Generating timeline...</div></div>');
-  $('#sidebar-select').collapse('hide');
-  $('#sidebar-timeline').collapse('show');
+  $('#sidebar-timeline').collapse({'parent':$("#sidebar-accordion")}); // Sometimes makes the accordion buggy (see issue #6) :(
   force.stop();
   svg.selectAll("line.link").remove();
   svg.selectAll("circle.node").remove();
   d3.json(file, function(error, graph) {
+    setPermalink(file,selected);
     force
         .nodes(graph.nodes)
         .links(graph.links)
@@ -148,6 +167,7 @@ function populate(file,selected) {
             d3.select(this).classed("pinned",d.fixed = !d.fixed)
           } else if (d3.event.ctrlKey) {
             toggleSelection(d.label,selected);
+            setPermalink(file,selected);
           } else {
             if (d.uri) {
               window.open(d.uri);
@@ -209,6 +229,7 @@ function populate(file,selected) {
           .on("click",function(d) {
             if (d3.event.ctrlKey) {
               toggleSelection(d.label,selected);
+              setPermalink(file,selected);
             } else {
               if (d.uri) {
                 window.open(d.uri);

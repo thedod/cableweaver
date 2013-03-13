@@ -16,7 +16,7 @@
       .noborder { border:none }
       #timeline { height:391px; overflow:auto; white-space:nowrap; font-size:92% }
       #mrns { height:207px }
-      #permalink { width:100% }
+      #permalink,#exporthtml { width:100% }
     </style>
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="css/cableweaver.css" rel="stylesheet">
@@ -41,6 +41,19 @@
         <p>Copy this link and share it.</p>
       </div>
     </div>
+    <div id="exportModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="exportModalLabel">Export story line as a web page</h3>
+      </div>
+      <div class="modal-body">
+        <textarea id="exporthtml" rows="15" readonly="readonly" onclick="this.select()"></textarea>
+      </div>
+      <div class="modal-footer">
+        <p>Copy this html, paste it into a text editor, save it as <em>some-filename.html</em>, and view it in a browser.
+           Later on, you can edit the file and add summary, comments, cable quotes, etc.</p>
+      </div>
+    </div>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -51,13 +64,21 @@
           </a>
           <a class="brand" href="#">CableWeaver V0.3</a>
           <div id="top-menu-collapse" class="nav-collapse collapse">
-            <ul class="nav pull-right">
-              <li><a target="_blank" title="Instructions" href="https://github.com/thedod/cableweaver/wiki">Help</a></li>
-              <li><a target="_blank" title="Fork me" href="https://github.com/thedod/cableweaver#readme">Code</a></li>
+            <ul class="nav">
               <ul class="nav">
-                <li id="share-tab" class="active hidden">
+                <li id="share-tab" class="hidden">
                   <a id="share-button" href="#shareModal" title="Permalink" role="button" data-toggle="modal"><i class="icon-share icon-white"></i>Share</a>
                 </li>
+                <li id="export-tab" class="hidden">
+                  <a id="export-button" href="#exportModal" title="Export layout and story line as static HTML" role="button" data-toggle="modal"><i
+                    class="icon-download icon-white"></i>Export</a>
+                </li>
+              </ul>
+            </ul>
+            <ul class="nav pull-right">
+              <ul class="nav">
+                <li><a target="_blank" title="Instructions" href="https://github.com/thedod/cableweaver/wiki">Help</a></li>
+                <li><a target="_blank" title="Fork me" href="https://github.com/thedod/cableweaver#readme">Code</a></li>
               </ul>
             </ul>
           </div><!--/.nav-collapse -->

@@ -33,6 +33,19 @@ $(function() {
         }
     });
     $('#shareModal').on('shown',function() {$('#permalink').select();});
+    $('#exportModal').on('shown',function() {
+      var the_storyline = showNumbers(),
+          the_svg = dumpSvg(),
+          the_permalink = $('#permalink').attr('value'),
+          the_html = render_export({
+            permalink:the_permalink,
+            permahash:the_permalink.replace(/.*#/,''),
+            svg:the_svg,
+            storyline:the_storyline
+          });
+      hideNumbers();
+      $('#exporthtml').attr('value',the_html).select();
+    });
     initSvg();
     if (thefile) {
         populate('json/'+thefile+'.json',theselection);
@@ -130,6 +143,38 @@ function setPermalink(file,selected) {
   $('#permalink').attr('value',
     location.href.split('#')[0]+'#'+([file.replace(/.*\//,'').replace('.json','')].concat(selected)).join(','));
   $('#share-tab').removeClass('hidden');
+  $('#export-tab').removeClass('hidden');
+}
+
+function getStoryline() {
+  var i = 0, storyline = [];
+  d3.select("#timeline").selectAll("small.selected").each(function() {
+      var node=d3.select('#c'+this.id.slice(1));
+      storyline.push({index:++i,x:node.attr('cx'),y:node.attr('cy'),data:node.datum()});
+    });
+  return storyline;
+}
+
+function showNumbers() {
+  var sl = getStoryline();
+  force.stop();
+  svg.selectAll("text.nodeindex").data(sl)
+    .enter().append("text")
+      .classed("nodeindex",true)
+      .text(function(d) {return d.index;})
+      .attr("x",function(d) {return parseFloat(d.x)-6;}) // ugly.
+      .attr("y",function(d) {return parseFloat(d.y)+6;}); // how do you align svg text center/middle?
+  return sl;
+}
+
+function hideNumbers() {
+    svg.selectAll("text.nodeindex").remove();
+    force.start();
+}
+
+function dumpSvg() {
+    // Inspired by https://github.com/agordon/d3export_demo
+    return (new XMLSerializer).serializeToString(svg[0][0]);
 }
 
 function populate(file,selected) {

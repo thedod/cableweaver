@@ -35,7 +35,6 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '        </header>\n'+
 '        <hr>\n'+
 '        <section id="main_content">\n'+
-'          <h1>A CableWeaver story line:</h1>\n'+
 '          <h1>A story called "{{permahash}}"</h1>\n'+
 '          <em>please find it a better name ;)</em>\n'+
 '          <h3><a target="_blank" href="{{{permalink}}}">Graph</a></h3>\n'+

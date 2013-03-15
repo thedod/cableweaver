@@ -3,7 +3,7 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '  <head>\n'+
 '    <meta charset="utf-8">\n'+
 '    <meta http-equiv="X-UA-Compatible" content="chrome=1">\n'+
-'    <title>A CableWeaver story line: {{permahash}}</title>\n'+
+'    <title>A CableWeaver story line: {{graph_id}}</title>\n'+
 '    <link href="https://fonts.googleapis.com/css?family=Chivo:900" rel="stylesheet" type="text/css">\n'+
 '    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />\n'+
 '    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />\n'+
@@ -35,9 +35,9 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '        </header>\n'+
 '        <hr>\n'+
 '        <section id="main_content">\n'+
-'          <h1>A story called "{{permahash}}"</h1>\n'+
+'          <h1>A story called "{{graph_id}}"</h1>\n'+
 '          <em>please find it a better name ;)</em>\n'+
-'          <h3><a target="_blank" href="{{{permalink}}}">Graph</a></h3>\n'+
+'          <h3><a target="_blank" href="http://thedod.github.com/cableweaver/{{{permahash}}}">Graph</a></h3>\n'+
 '          <div id="svg">{{{svg}}}</div>\n'+
 '          <h2>Summary</h2>\n'+
 '          <em>Summarize this story here...</em>\n'+

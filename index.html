@@ -38,20 +38,31 @@
         <input id="permalink" readonly="readonly" onclick="this.select()">
       </div>
       <div class="modal-footer">
-        <p>Copy this link and share it.</p>
+        <p algn=left>
+          Copy this link and share it. It will open the dynamic graph you're viewing now, with the same set of selected cables (aka <em>story line</em>),
+          but won't preserve the current layout. This is suitable for sharing with people who want to continue exploring the graph.
+          If you also want to preseve your layout, try the <em>export</em> button.
+        </p>
       </div>
     </div>
     <div id="exportModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="exportModalLabel">Export story line as a web page</h3>
+        <h3 id="exportModalLabel">Export a
+          <a target="_blank" href="http://thedod.github.com/cabelweaving">CableWeaving</a>-style web page</h3>
       </div>
       <div class="modal-body">
         <textarea id="exporthtml" rows="15" readonly="readonly" onclick="this.select()"></textarea>
       </div>
       <div class="modal-footer">
-        <p>Copy this html, paste it into a text editor, save it as <em>some-filename.html</em>, and view it in a browser.
-           Later on, you can edit the file and add summary, comments, cable quotes, etc.</p>
+        <p align="left">
+          Copy this html, paste it into a text editor, save it as <code>your-story.html</code>, and view it in a browser.
+          Optionally &mdash; if you want styling similar to that of the
+          <a target="_blank" href="http://thedod.github.com/cabelweaving">CableWeaving</a>
+          story archive &mdash; you can download CableWeaving as a
+          <a target="_blank" href="https://github.com/thedod/cableweaving/zipball/gh-pages">zip file</a>,
+          extract the folder it contains, and save <code>your-story.html</code> there.
+        </p>
       </div>
     </div>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -67,18 +78,19 @@
             <ul class="nav">
               <ul class="nav">
                 <li id="share-tab" class="hidden">
-                  <a id="share-button" href="#shareModal" title="Permalink" role="button" data-toggle="modal"><i class="icon-share icon-white"></i>Share</a>
+                  <a id="share-button" href="#shareModal" title="Permalink" role="button" data-toggle="modal"><i class="icon-share icon-white"></i>Share graph</a>
                 </li>
                 <li id="export-tab" class="hidden">
-                  <a id="export-button" href="#exportModal" title="Export layout and story line as static HTML" role="button" data-toggle="modal"><i
-                    class="icon-download icon-white"></i>Export</a>
+                  <a id="export-button" href="#exportModal" title="Export layout and story line as a skeleton web page" role="button" data-toggle="modal"><i
+                    class="icon-download icon-white"></i>Export story</a>
                 </li>
               </ul>
             </ul>
             <ul class="nav pull-right">
               <ul class="nav">
-                <li><a target="_blank" title="Instructions" href="https://github.com/thedod/cableweaver/wiki">Help</a></li>
-                <li><a target="_blank" title="Fork me" href="https://github.com/thedod/cableweaver#readme">Code</a></li>
+                <li><a target="_blank" title="Instructions" href="https://github.com/thedod/cableweaver/wiki"><i class="icon-info-sign icon-white"></i>Help</a></li>
+                <li><a target="_blank" title="Fork me" href="https://github.com/thedod/cableweaver#readme"><i class="icon-file icon-white"></i>Code</a></li>
+                <li><a target="_blank" title="Browse the CableWeaving story archive" href="http://thedod.github.com/cableweaving"><i class="icon-book icon-white"></i>Sample stories</a></li>
               </ul>
             </ul>
           </div><!--/.nav-collapse -->

@@ -40,6 +40,7 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '          <h4>Hover over a circle for cable information,\n'+
 '            or <a target="_blank" href="http://thedod.github.com/cableweaver/{{{permahash}}}">click for interactive graph</a></h4>\n'+
 '          <div id="svg">{{{svg}}}</div>\n'+
+'          <h3 align="right"><a target="_blank" href="https://github.com/thedod/cableweaver/wiki#legend">Legend</a></h3>\n'+
 '          <h2>Summary</h2>\n'+
 '          <em>Summarize this story here...</em>\n'+
 '          <h2>Story line</h2>\n'+

@@ -29,7 +29,7 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '    <div id="container">\n'+
 '      <div class="inner">\n'+
 '        <header>\n'+
-'          <h1><a href="{{{root}}}">Cable Weaving</a></h1>\n'+
+'          <h1><a target="_top" href="{{{root}}}">Cable Weaving</a></h1>\n'+
 '          <h2>Stories <a target="_blank" href="http://thedod.github.com/cableweaver">woven</a>\n'+
 '              out of <a target="_blank" href="https://en.wikipedia.org/wiki/United_States_diplomatic_cables_leak">cables</a></h2>\n'+
 '        </header>\n'+

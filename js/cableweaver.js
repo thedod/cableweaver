@@ -37,6 +37,7 @@ $(function() {
       var the_storyline = showNumbers(),
           the_svg = dumpSvg(),
           the_html = render_export({
+            root:'http://thedod.github.com/cableweaving', // that's where css and index page come from
             permahash:location.hash,
             graph_id:location.hash.slice(1).split(',')[0],
             svg:the_svg,

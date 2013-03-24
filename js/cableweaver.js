@@ -38,6 +38,7 @@ $(function() {
           the_svg = dumpSvg(),
           the_html = render_export({
             root:'http://thedod.github.com/cableweaving', // that's where css and index page come from
+            cableweaver_root:'http://thedod.github.com/cableweaver', // for link to graph
             permahash:location.hash,
             graph_id:location.hash.slice(1).split(',')[0],
             svg:the_svg,
@@ -234,11 +235,11 @@ function populate(file,selected) {
   
     var node_stroke = d3.scale.linear()
         .domain([
-          d3.min(graph.nodes,function(d) { return d.authority || 0 }),
-          d3.max(graph.nodes,function(d) { return d.authority || 0 })
+          d3.min(graph.nodes,function(d) { return d.betweenness || 0 }),
+          d3.max(graph.nodes,function(d) { return d.betweenness || 0 })
         ])
         .range([2,6]);
-    node.style("stroke-width", function(d) { return node_stroke(d.authority || 0)+"px"; });
+    node.style("stroke-width", function(d) { return node_stroke(d.betweenness || 0)+"px"; });
   
     node.append("title")
         .text(function(d) {

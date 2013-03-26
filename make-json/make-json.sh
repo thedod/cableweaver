@@ -4,10 +4,12 @@ mkdir -p $OUTDIR/graphs $OUTDIR/json
 echo ==== Creating full graph
 ./c2g "$OUTDIR/full.graphml"
 echo ==== Splitting to subgraphs
-./splitgraph --source "$OUTDIR/full.graphml" -d "$OUTDIR/graphs" --multilevel --clusters
+./splitgraph --source "$OUTDIR/full.graphml" -d "$OUTDIR/graphs" -m 4 --multilevel --clusters
 echo ==== Resplitting large graphs
 cd "$OUTDIR/graphs"
 find -size +100k -exec ../../splitgraph --source '{}' --multilevel \;
+echo ==== Removing large graphs
+find -size +100k -exec rm '{}' \;
 echo ==== Generating mrn2graphs.json
 grep 'v_label">' *.graphml | sed -e 's/:.*">/|/' -e 's/<.*$//' | python ../../make-mrn2graphs.py > ../json/mrn2graphs.json
 cd ../..

@@ -16,7 +16,7 @@
       .noborder { border:none }
       #timeline { height:391px; overflow:auto; white-space:nowrap; font-size:92% }
       #mrns { height:207px }
-      #permalink,#exporthtml { width:100% }
+      #permalink,#exporthtml,#exportdesc { width:100% }
     </style>
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="css/cableweaver.css" rel="stylesheet">
@@ -52,13 +52,33 @@
           <a target="_blank" href="http://thedod.github.com/cabelweaving">CableWeaving</a>-style web page</h3>
       </div>
       <div class="modal-body">
-        <textarea id="exporthtml" rows="15" readonly="readonly" onclick="this.select()"></textarea>
+        <form class="form-horizontal" method="post" target="_blank" action="https://gist.github.com/gists">
+          <input type="hidden" name="gist[files][][name]" value="index.html">
+          <input type="hidden" name="gist[files][][language]" value="HTML">
+          <div class="control-group">
+            <label class="control-label" for="exportdesc">Name this story-line...</label>
+            <div class="controls"><input id="exportdesc" name="gist[description]" onclick="this.select()"></div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="exporthtml">...then either copy this HTML and paste it to a text editor...</label>
+            <div class="controls"><textarea id="exporthtml" name="gist[files][][content]" rows="10" readonly="readonly" onclick="this.select()"></textarea></div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="exportbutton">...or save it at github:</label>
+            <div class="controls">
+              <button class="btn btn-primary" type="submit" name="gist[public]" value="1">
+                <strong>Create gist</strong>
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <p align="left">
-          Copy this html, and either paste it into a text editor (and save as an <code>HTML</code> file),
-          or use a service like <a target="_blank" href="http://codepen.io">codepen.io</a> to easily share
-          it with others.
+          <strong>Tip:</strong> Drag the <a class="btn"
+href="javascript:{if(location.hostname==='gist.github.com')window.open(location.toString().replace('s://gist.github.com','://bl.ocks.org'));void(0);}">bl.ockalize</a>
+          bookmarlet to your bookmark toolbar.
+          You can then click on the bookmarklet at the gist's page to view it via <a target="_blank" href="http://bl.ocks.org">bl.ocks.org</a>.
         </p>
       </div>
     </div>

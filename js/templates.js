@@ -3,7 +3,7 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '  <head>\n'+
 '    <meta charset="utf-8">\n'+
 '    <meta http-equiv="X-UA-Compatible" content="chrome=1">\n'+
-'    <title>A CableWeaver story line: {{graph_id}}</title>\n'+
+'    <title>A CableWeaver story line: {{title}}</title>\n'+
 '    <link href="https://fonts.googleapis.com/css?family=Chivo:900" rel="stylesheet" type="text/css">\n'+
 '    <link rel="stylesheet" type="text/css" href="{{{root}}}/stylesheets/stylesheet.css" media="screen" />\n'+
 '    <link rel="stylesheet" type="text/css" href="{{{root}}}/stylesheets/pygment_trac.css" media="screen" />\n'+
@@ -30,23 +30,23 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '      <div class="inner">\n'+
 '        <header>\n'+
 '          <h1><a target="_top" href="{{{root}}}">Cable Weaving</a></h1>\n'+
-'          <h2>Stories <a target="_blank" href="http://thedod.github.com/cableweaver">woven</a>\n'+
-'              out of <a target="_blank" href="https://en.wikipedia.org/wiki/United_States_diplomatic_cables_leak">cables</a></h2>\n'+
+'          <h2>Stories <a target="_top" href="http://thedod.github.com/cableweaver">woven</a>\n'+
+'              out of <a target="_top" href="https://en.wikipedia.org/wiki/United_States_diplomatic_cables_leak">cables</a></h2>\n'+
 '        </header>\n'+
+'        <script type="text/javascript" src="http://thedod.github.io/cableweaving/bl.ocks.js"></script>\n'+
 '        <hr>\n'+
 '        <section id="main_content">\n'+
-'          <h1>A story called "{{graph_id}}"</h1>\n'+
-'          <em>please find it a better name ;)</em>\n'+
+'          <h1>{{title}}</h1>\n'+
 '          <h4>Hover over a circle for cable information,\n'+
-'            or <a target="_blank" href="{{{cableweaver_root}}}/{{{permahash}}}">click for interactive graph</a></h4>\n'+
+'            or <a target="_top" href="{{{cableweaver_root}}}/{{{permahash}}}">click for interactive graph</a></h4>\n'+
 '          <div id="svg">{{{svg}}}</div>\n'+
-'          <h3 align="right"><a target="_blank" href="https://github.com/thedod/cableweaver/wiki#legend">Legend</a></h3>\n'+
+'          <h3 align="right"><a target="_top" href="https://github.com/thedod/cableweaver/wiki#legend">Legend</a></h3>\n'+
 '          <h2>Summary</h2>\n'+
 '          <em>Summarize this story here...</em>\n'+
 '          <h2>Story line</h2>\n'+
 '          <dl>\n'+
 '            {{#storyline}}\n'+
-'              {{#data.uri}}<dt><h4>{{index}}) <a target="_blank" href="{{{data.uri}}}">{{data.label}}</a> {{data.date}} {{data.classification}}</dt>{{/data.uri}}\n'+
+'              {{#data.uri}}<dt><h4>{{index}}) <a target="_top" href="{{{data.uri}}}">{{data.label}}</a> {{data.date}} {{data.classification}}</dt>{{/data.uri}}\n'+
 '              {{^data.uri}}<dt><h4>{{index}}) {{data.label}}</h4></dt>{{/data.uri}}\n'+
 '              <dd>\n'+
 '              <h4>{{#data.subjects}}{{data.subjects}}{{/data.subjects}}{{^data.subjects}}MISSING{{/data.subjects}}</h4>\n'+

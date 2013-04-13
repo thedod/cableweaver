@@ -34,13 +34,17 @@ $(function() {
     });
     $('#shareModal').on('shown',function() {$('#permalink').select();});
     $('#exportModal').on('shown',function() {
+      $('#exportdesc').attr('value',location.hash.slice(1).split(',')[0]).trigger('change').select();
+    });
+    $('#exportdesc').on('change',function() {
       var the_storyline = showNumbers(),
           the_svg = dumpSvg(),
+          the_title = $('#exportdesc').attr('value').trim()||'(untitled story)',
           the_html = render_export({
             root:'http://thedod.github.com/cableweaving', // that's where css and index page come from
             cableweaver_root:'http://thedod.github.com/cableweaver', // for link to graph
             permahash:location.hash,
-            graph_id:location.hash.slice(1).split(',')[0],
+            title:the_title,
             svg:the_svg,
             storyline:the_storyline
           });

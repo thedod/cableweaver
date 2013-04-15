@@ -46,7 +46,9 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '          <h2>Story line</h2>\n'+
 '          <dl>\n'+
 '            {{#storyline}}\n'+
-'              {{#data.uri}}<dt><h4>{{index}}) <a target="_top" href="{{{data.uri}}}">{{data.label}}</a> {{data.date}} {{data.classification}}</dt>{{/data.uri}}\n'+
+               // ugly tweak to use plusd instead of window.open(d.uri)
+'              {{#data.uri}}<dt><h4>{{index}}) <a target="_top" href="https://www.wikileaks.org/plusd/cables/{{data.label}}_a.html">{{data.label}}</a>'+
+'              {{data.date}} {{data.classification}}</dt>{{/data.uri}}\n'+
 '              {{^data.uri}}<dt><h4>{{index}}) {{data.label}}</h4></dt>{{/data.uri}}\n'+
 '              <dd>\n'+
 '              <h4>{{#data.subjects}}{{data.subjects}}{{/data.subjects}}{{^data.subjects}}MISSING{{/data.subjects}}</h4>\n'+

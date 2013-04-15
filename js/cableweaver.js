@@ -49,7 +49,7 @@ $(function() {
             storyline:the_storyline
           });
       hideNumbers();
-      $('#exporthtml').attr('value',the_html).select();
+      $('#exporthtml').text(the_html);
     });
     initSvg();
     if (thefile) {
@@ -220,7 +220,7 @@ function populate(file,selected) {
             setPermalink(file,selected);
           } else {
             if (d.uri) {
-              window.open(d.uri);
+              window.open('https://www.wikileaks.org/plusd/cables/'+d.label+'_a.html'); // ugly tweak to use plusd instead of window.open(d.uri)
             } else {
               alert('Missing cable');
             }
@@ -282,7 +282,7 @@ function populate(file,selected) {
               setPermalink(file,selected);
             } else {
               if (d.uri) {
-                window.open(d.uri);
+                window.open('https://www.wikileaks.org/plusd/cables/'+d.label+'_a.html'); // ugly tweak to use plusd instead of window.open(d.uri)
               } else {
                 alert('Missing cable');
               }

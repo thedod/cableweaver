@@ -34,6 +34,7 @@ $(function() {
     });
     $('#shareModal').on('shown',function() {$('#permalink').select();});
     $('#exportModal').on('shown',function() {
+      $('#exportreadme').attr('value',render_readme({cableweaver_root:'http://thedod.github.io/cableweaver',permahash:location.hash}));
       $('#exportdesc').attr('value',location.hash.slice(1).split(',')[0]).trigger('change').select();
     });
     $('#exportdesc').on('change',function() {
@@ -41,8 +42,8 @@ $(function() {
           the_svg = dumpSvg(),
           the_title = $('#exportdesc').attr('value').trim()||'(untitled story)',
           the_html = render_export({
-            root:'http://thedod.github.com/cableweaving', // that's where css and index page come from
-            cableweaver_root:'http://thedod.github.com/cableweaver', // for link to graph
+            root:'http://thedod.github.io/cableweaving', // that's where css and index page come from
+            cableweaver_root:'http://thedod.github.io/cableweaver', // for link to graph
             permahash:location.hash,
             title:the_title,
             svg:the_svg,

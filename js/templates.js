@@ -30,10 +30,10 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '      <div class="inner">\n'+
 '        <header>\n'+
 '          <h1><a target="_top" href="{{{root}}}">Cable Weaving</a></h1>\n'+
-'          <h2>Stories <a target="_top" href="http://thedod.github.com/cableweaver">woven</a>\n'+
+'          <h2>Stories <a target="_top" href="{{{cableweaver_root}}}">woven</a>\n'+
 '              out of <a target="_top" href="https://en.wikipedia.org/wiki/United_States_diplomatic_cables_leak">cables</a></h2>\n'+
 '        </header>\n'+
-'        <script type="text/javascript" src="http://thedod.github.io/cableweaving/bl.ocks.js"></script>\n'+
+'        <script type="text/javascript" src="{{{root}}}/bl.ocks.js"></script>\n'+
 '        <hr>\n'+
 '        <section id="main_content">\n'+
 '          <h1>{{title}}</h1>\n'+
@@ -61,3 +61,7 @@ render_export = Mustache.compile('<!DOCTYPE html>\n'+
 '    </div>\n'+
 '  </body>\n'+
 '</html>');
+
+render_readme = Mustache.compile("The initial version of this page was exported from [a CableWeaver story line]({{{cableweaver_root}}}/{{{permahash}}}).\n\n"+
+"Possibly [and hopefully], additional information was added manually. If you have anything to add to this page, don't be shy.\n"+
+"[Fork us a scoop](https://github.com/thedod/cableweaver/wiki/How-to-help) :)");

@@ -196,5 +196,13 @@ href="javascript:{if(location.hostname==='gist.github.com')window.open(location.
     <script src="js/mustache.js"></script>
     <script src="js/templates.js"></script>
     <script src="js/cableweaver.js"></script>
+    <script>
+      // project megaphone widget
+      (function(){ 
+        var e = document.createElement('script'); e.type='text/javascript'; e.async = true; 
+        e.src = document.location.protocol + '//d1ux67szpr7bp0.cloudfront.net/project-megaphone/widget.min.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(e, s);
+      })();
+    </script>
 </body>
 </html>
